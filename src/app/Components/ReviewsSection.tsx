@@ -23,6 +23,7 @@ function clampRating(n: number) {
 
 function Stars({ rating }: { rating: number }) {
   const r = clampRating(rating);
+
   return (
     <div className="flex items-center justify-center gap-0.5 leading-none">
       {Array.from({ length: 5 }).map((_, i) => (
@@ -37,22 +38,10 @@ function Stars({ rating }: { rating: number }) {
   );
 }
 
-/**
- * Selo "Google Reviews" (sem mexer nos cards)
- * - Usa um "G" com gradiente simples + texto
- * - Fica acima do grid/carrossel
- */
 function GoogleReviewsBadge() {
   return (
-    <div className="mb-5 flex items-center lg:justify-center gap-6 p-4">
-      <div
-        className="
-          h-10 w-10 rounded-xl bg-white
-          shadow-sm border border-white/20
-          flex items-center justify-center
-          overflow-hidden
-        "
-      >
+    <div className="mb-6 flex items-center lg:justify-center gap-4">
+      <div className="h-10 w-10 rounded-xl bg-white shadow-sm border border-white/20 flex items-center justify-center">
         <img
           src="/assets/google.png"
           alt="Google Reviews"
@@ -64,7 +53,6 @@ function GoogleReviewsBadge() {
         <div className="text-white font-semibold">
           Avaliações do Google
         </div>
-
         <div className="text-white/80 text-xs">
           Fonte: Google Reviews • avaliações verificadas
         </div>
@@ -77,8 +65,6 @@ export default function ReviewsSection() {
   const [reviews, setReviews] = useState<ReviewCard[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string>("");
-
-  // paginação
   const [page, setPage] = useState(0);
 
   useEffect(() => {
@@ -90,6 +76,7 @@ export default function ReviewsSection() {
         setError("");
 
         const res = await fetch("/api/reviews", { cache: "no-store" });
+
         if (!res.ok) {
           const txt = await res.text().catch(() => "");
           throw new Error(`HTTP ${res.status} - ${txt || "Falha na API"}`);
@@ -118,7 +105,6 @@ export default function ReviewsSection() {
     };
   }, []);
 
-  // 3 cards por página (1 linha)
   const pageSize = 3;
 
   const totalPages = useMemo(() => {
@@ -135,9 +121,10 @@ export default function ReviewsSection() {
   const hasPrev = page > 0;
 
   return (
-    <section id="avaliacoes" className="bg-[#1677B3] text-white item-center">
-      <div className="max-w-6xl mx-auto px-4 py-14 md:py-20 ">
+    <section id="avaliacoes" className="bg-[#1677B3] text-white">
+      <div className="max-w-6xl mx-auto px-4 py-14 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
+          
           {/* TEXTO */}
           <div className="text-center lg:text-left">
             <h2 className="text-2xl md:text-3xl font-extrabold leading-tight">
@@ -151,78 +138,83 @@ export default function ReviewsSection() {
             </p>
           </div>
 
-          {/* LISTA + SELO GOOGLE */}
+          {/* LISTA */}
           <div className="lg:col-span-2">
-            {/* ✅ Identificação Google (sem mexer nos cards) */}
-            {!loading && !error && reviews.length > 0 && <GoogleReviewsBadge />}
+            {!loading && !error && reviews.length > 0 && (
+              <GoogleReviewsBadge />
+            )}
 
-            {loading && <p className="text-white/90 text-center lg:text-left">Carregando avaliações...</p>}
-            {!loading && error && <p className="text-white/90 text-center lg:text-left">{error}</p>}
+            {loading && (
+              <p className="text-white/90 text-center lg:text-left">
+                Carregando avaliações...
+              </p>
+            )}
+
+            {!loading && error && (
+              <p className="text-white/90 text-center lg:text-left">
+                {error}
+              </p>
+            )}
 
             {!loading && !error && reviews.length === 0 && (
-              <p className="text-white/90 text-center lg:text-left">Sem avaliações no momento.</p>
+              <p className="text-white/90 text-center lg:text-left">
+                Sem avaliações no momento.
+              </p>
             )}
 
             {!loading && !error && reviews.length > 0 && (
               <>
-                {/* Linha centralizada */}
-                <div className="w-full flex justify-center lg:justify-start ">
-                  <div
-                    className="
-                     grid
-    grid-cols-1
-    sm:grid-cols-2
-    lg:grid-cols-3
-    gap-4
-    w-full
-                    "
-                  >
-                    {currentPageItems.map((r) => (
-                      <article
-                        key={r.id}
+                {/* GRID AJUSTADO */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                  {currentPageItems.map((r) => (
+                    <article
+                      key={r.id}
+                      className="
+                        w-full
+                        max-w-[280px]
+                        h-[180px]
+                        bg-white
+                        text-black
+                        rounded-2xl
+                        border border-black/10
+                        shadow-md
+                        px-5
+                        py-4
+                        flex flex-col
+                        items-center
+                        justify-center
+                        text-center
+                        overflow-hidden
+                        mx-auto
+                      "
+                    >
+                      <div className="text-sm font-semibold leading-tight w-full truncate">
+                        {r.reviewerName}
+                      </div>
+
+                      <div className="mt-2">
+                        <Stars rating={r.rating} />
+                      </div>
+
+                      <p
                         className="
-                          w-[280px]
-                          h-[180px]
-                          bg-white
-                          text-black
-                          rounded-2xl
-                          border border-black/10
-                          shadow-sm
-                          px-5
-                          py-4
-                          flex flex-col
-                          items-center
-                          justify-center
-                          text-center
+                          mt-3 text-sm text-black/60
                           overflow-hidden
+                          [display:-webkit-box]
+                          [-webkit-line-clamp:4]
+                          [-webkit-box-orient:vertical]
                         "
                       >
-                        <div className="text-sm font-semibold leading-tight w-full truncate">
-                          {r.reviewerName}
-                        </div>
-
-                        <div className="mt-2">
-                          <Stars rating={r.rating} />
-                        </div>
-
-                        <p
-                          className="
-                            mt-3 text-sm text-black/60
-                            overflow-hidden
-                            [display:-webkit-box]
-                            [-webkit-line-clamp:4]
-                            [-webkit-box-orient:vertical]
-                          "
-                        >
-                          {r.comment?.trim() ? r.comment : "Sem comentário"}
-                        </p>
-                      </article>
-                    ))}
-                  </div>
+                        {r.comment?.trim()
+                          ? r.comment
+                          : "Sem comentário"}
+                      </p>
+                    </article>
+                  ))}
                 </div>
 
-                {/* Paginação */}
-                <div className="mt-10 flex items-center  lg:justify-center gap-6 p-6">
+                {/* PAGINAÇÃO */}
+                <div className="mt-10 flex items-center lg:justify-center gap-6 flex-wrap">
                   <button
                     type="button"
                     onClick={() => setPage((p) => Math.max(0, p - 1))}
@@ -243,7 +235,11 @@ export default function ReviewsSection() {
 
                   <button
                     type="button"
-                    onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+                    onClick={() =>
+                      setPage((p) =>
+                        Math.min(totalPages - 1, p + 1)
+                      )
+                    }
                     disabled={!hasNext}
                     className="
                       px-5 py-2 rounded-lg
@@ -255,7 +251,6 @@ export default function ReviewsSection() {
                     Avançar
                   </button>
 
-                  {/* Extra: total de reviews */}
                   <div className="hidden sm:block text-white/70 text-sm">
                     • {reviews.length} avaliações
                   </div>
