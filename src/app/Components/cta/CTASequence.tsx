@@ -4,7 +4,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 
 /** ===== CONFIG ===== */
 const IS_DEV = process.env.NODE_ENV === "development";
-const DELAY_MS = IS_DEV ? 90 * 1000 : 120 * 1000; // DEV 1:30 / PROD 2:00
+const DELAY_MS = IS_DEV ? 90 * 1000 : 120 * 1000;
 const STORAGE_KEY = "ca_cta_sequence_v12";
 
 const CARD_BLUE = "#1777B3";
@@ -19,10 +19,6 @@ const BRAND = {
 type CTAProps = { onClose: () => void };
 type CTAItem = { id: string; render: (props: CTAProps) => React.ReactNode };
 
-function cn(...parts: Array<string | false | null | undefined>) {
-  return parts.filter(Boolean).join(" ");
-}
-
 function PrimaryLink({
   href,
   children,
@@ -35,20 +31,20 @@ function PrimaryLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className={cn(
-        "w-full inline-flex items-center justify-center",
-        "h-12 px-5 rounded-2xl",
-        "bg-black text-white font-semibold",
-        "transition hover:bg-neutral-900 active:scale-[0.99]",
-        "focus:outline-none focus:ring-2 focus:ring-black/30"
-      )}
+      className="
+        w-full inline-flex items-center justify-center
+        h-12 px-5
+        rounded-2xl
+        bg-black text-white font-semibold
+        transition hover:bg-neutral-900 active:scale-[0.99]
+      "
     >
       {children}
     </a>
   );
 }
 
-/** ===== MODAL SHELL (Vercel-like) ===== */
+/** ===== MODAL SHELL (SEM BORDER) ===== */
 function ModalShell({
   stepLabel,
   title,
@@ -66,29 +62,24 @@ function ModalShell({
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      {/* Backdrop */}
       <div
         className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Modal */}
       <div
-        className={cn(
-          "relative w-full max-w-[420px]",
-          "bg-white rounded-3xl overflow-hidden",
-          "shadow-[0_30px_80px_rgba(0,0,0,0.35)]",
-          "ring-1 ring-black/10"
-        )}
-        role="dialog"
-        aria-modal="true"
+        className="
+          relative w-full max-w-[420px]
+          bg-white rounded-3xl overflow-hidden
+          shadow-2xl
+        "
       >
-        {/* Header */}
-        <div className="px-6 pt-5 pb-4">
-          <div className="flex items-start justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="w-11 h-11 rounded-2xl bg-white ring-1 ring-black/10 shadow-sm flex items-center justify-center overflow-hidden">
+        {/* HEADER */}
+        <div className="px-6 pt-6 pb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-white shadow-sm flex items-center justify-center overflow-hidden">
                 <img
                   src={BRAND.logoSrc}
                   alt={BRAND.name}
@@ -96,71 +87,71 @@ function ModalShell({
                 />
               </div>
 
-              <div className="min-w-0">
-                <div className="text-sm font-semibold text-black truncate">
+              <div>
+                <div className="text-sm font-semibold text-black">
                   {BRAND.name}
                 </div>
 
-                {showStep ? (
-                  <div className="mt-1 inline-flex items-center rounded-full bg-black/5 px-2.5 py-1 text-[11px] font-semibold text-black ring-1 ring-black/10">
+                {showStep && (
+                  <div className="mt-1 text-[11px] font-semibold text-black/60">
                     {stepLabel}
                   </div>
-                ) : null}
+                )}
               </div>
             </div>
 
             <button
               onClick={onClose}
-              className={cn(
-                "w-9 h-9 rounded-full grid place-items-center",
-                "text-black ring-1 ring-black/10",
-                "hover:bg-black/5 transition"
-              )}
+              className="
+                w-9 h-9 rounded-full
+                flex items-center justify-center
+                text-black hover:bg-black/5 transition
+              "
               aria-label="Fechar"
-              title="Fechar"
             >
               ✕
             </button>
           </div>
 
-          <div className="mt-4">
-            <h3 className="text-[22px] font-extrabold text-black leading-tight">
+          <div className="mt-6">
+            <h3 className="text-2xl font-extrabold text-black leading-tight">
               {title}
             </h3>
-            {subtitle ? (
-              <p className="mt-2 text-sm text-black/70 leading-relaxed">
+
+            {subtitle && (
+              <p className="mt-3 text-sm text-black/70 leading-relaxed">
                 {subtitle}
               </p>
-            ) : null}
+            )}
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="h-px w-full bg-black/10" />
+        {/* Divider suave */}
+        <div className="h-px bg-black/10" />
 
-        {/* Body */}
-        <div className="px-6 py-5">{children}</div>
+        {/* CONTENT */}
+        <div className="px-6 py-6">{children}</div>
 
-        {/* Divider */}
-        <div className="h-px w-full bg-black/10" />
+        {/* Divider suave */}
+        <div className="h-px bg-black/10" />
 
-        {/* Footer */}
-        <div className="px-6 py-4 flex items-center justify-center text-xs text-black/60">
-          <span>Atendimento rapido • orcamento sem compromisso</span>
+        {/* FOOTER */}
+        <div className="px-6 py-4 text-xs text-black/60 text-center">
+          Atendimento rapido • orcamento sem compromisso
         </div>
       </div>
     </div>
   );
 }
 
-/** ===== WhatsApp builder ===== */
+/** ===== WhatsApp ===== */
 function buildWhatsAppLink(message: string) {
   return `https://wa.me/${BRAND.whatsappNumber}?text=${encodeURIComponent(
     message
   )}`;
 }
 
-/** ===== storage helpers ===== */
+/** ===== Storage ===== */
 type StoredState = {
   index: number;
   lastClosedAt: number;
@@ -170,14 +161,7 @@ function readStored(): StoredState | null {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
-    const parsed = JSON.parse(raw);
-    if (
-      typeof parsed?.index === "number" &&
-      typeof parsed?.lastClosedAt === "number"
-    ) {
-      return parsed as StoredState;
-    }
-    return null;
+    return JSON.parse(raw);
   } catch {
     return null;
   }
@@ -186,12 +170,10 @@ function readStored(): StoredState | null {
 function writeStored(state: StoredState) {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    // ignore
-  }
+  } catch {}
 }
 
-/** ===== Info Card (layout only) ===== */
+/** ===== Info Card (SEM BORDER) ===== */
 function InfoCard({
   title,
   description,
@@ -201,11 +183,7 @@ function InfoCard({
 }) {
   return (
     <div
-      className={cn(
-        "rounded-2xl p-5",
-        "text-white shadow-sm",
-        "ring-1 ring-black/10"
-      )}
+      className="rounded-2xl p-5 text-white shadow-sm"
       style={{ backgroundColor: CARD_BLUE }}
     >
       <p className="font-extrabold text-white text-base">{title}</p>
@@ -218,7 +196,8 @@ function InfoCard({
 
 /** ================= CTA 1 ================= */
 function CTACapturarLead({ onClose }: CTAProps) {
-  const message = "Ola, vim pelo site e quero um orcamento.\n\n" + "Pode me ajudar?";
+  const message =
+    "Ola, vim pelo site e quero um orcamento.\n\nPode me ajudar?";
 
   return (
     <ModalShell
@@ -232,7 +211,9 @@ function CTACapturarLead({ onClose }: CTAProps) {
           title="Atendimento rapido no WhatsApp"
           description="Envie tipo de servico, medidas e bairro para agilizar o orcamento."
         />
-        <PrimaryLink href={buildWhatsAppLink(message)}>Quero meu orcamento</PrimaryLink>
+        <PrimaryLink href={buildWhatsAppLink(message)}>
+          Quero meu orcamento
+        </PrimaryLink>
       </div>
     </ModalShell>
   );
@@ -252,7 +233,9 @@ function CTAInstagram({ onClose }: CTAProps) {
           title="Conteudo e referencias"
           description="Veja modelos, acabamentos e ideias para o seu ambiente."
         />
-        <PrimaryLink href={BRAND.instagramUrl}>Seguir no Instagram</PrimaryLink>
+        <PrimaryLink href={BRAND.instagramUrl}>
+          Seguir no Instagram
+        </PrimaryLink>
       </div>
     </ModalShell>
   );
@@ -260,7 +243,8 @@ function CTAInstagram({ onClose }: CTAProps) {
 
 /** ================= CTA 3 ================= */
 function CTAAnaliseGratuita({ onClose }: CTAProps) {
-  const message = "Ola, vim pelo site e quero um orcamento.\n\n" + "Pode me ajudar?";
+  const message =
+    "Ola, vim pelo site e quero um orcamento.\n\nPode me ajudar?";
 
   return (
     <ModalShell
