@@ -35,22 +35,20 @@ function PrimaryLink({
       href={href}
       target="_blank"
       rel="noopener noreferrer"
-      className="
-        w-full inline-flex items-center justify-center
-        h-12 px-5
-        rounded-2xl
-        bg-black text-white font-semibold
-        transition
-        hover:bg-neutral-900 active:scale-[0.99]
-        focus:outline-none focus:ring-2 focus:ring-black/30
-      "
+      className={cn(
+        "w-full inline-flex items-center justify-center",
+        "h-12 px-5 rounded-2xl",
+        "bg-black text-white font-semibold",
+        "transition hover:bg-neutral-900 active:scale-[0.99]",
+        "focus:outline-none focus:ring-2 focus:ring-black/30"
+      )}
     >
       {children}
     </a>
   );
 }
 
-/** ===== MODAL SHELL (APENAS LAYOUT) ===== */
+/** ===== MODAL SHELL (Vercel-like) ===== */
 function ModalShell({
   stepLabel,
   title,
@@ -68,27 +66,25 @@ function ModalShell({
 
   return (
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
-      {/* backdrop */}
+      {/* Backdrop */}
       <div
-        className="absolute inset-0 bg-black/75 backdrop-blur-sm"
+        className="absolute inset-0 bg-black/60 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* modal */}
+      {/* Modal */}
       <div
-        className="
-          relative w-full max-w-[420px]
-          bg-white
-          rounded-[28px]
-          shadow-[0_30px_80px_rgba(0,0,0,0.45)]
-          ring-1 ring-black/10
-          overflow-hidden
-        "
+        className={cn(
+          "relative w-full max-w-[420px]",
+          "bg-white rounded-3xl overflow-hidden",
+          "shadow-[0_30px_80px_rgba(0,0,0,0.35)]",
+          "ring-1 ring-black/10"
+        )}
         role="dialog"
         aria-modal="true"
       >
-        {/* header */}
+        {/* Header */}
         <div className="px-6 pt-5 pb-4">
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3 min-w-0">
@@ -105,7 +101,6 @@ function ModalShell({
                   {BRAND.name}
                 </div>
 
-                {/* só aparece se tiver stepLabel (mas não mudamos info; só não renderiza vazio) */}
                 {showStep ? (
                   <div className="mt-1 inline-flex items-center rounded-full bg-black/5 px-2.5 py-1 text-[11px] font-semibold text-black ring-1 ring-black/10">
                     {stepLabel}
@@ -116,14 +111,11 @@ function ModalShell({
 
             <button
               onClick={onClose}
-              className="
-                w-9 h-9 rounded-full
-                grid place-items-center
-                text-black
-                ring-1 ring-black/10
-                hover:bg-black/5
-                transition
-              "
+              className={cn(
+                "w-9 h-9 rounded-full grid place-items-center",
+                "text-black ring-1 ring-black/10",
+                "hover:bg-black/5 transition"
+              )}
               aria-label="Fechar"
               title="Fechar"
             >
@@ -135,7 +127,6 @@ function ModalShell({
             <h3 className="text-[22px] font-extrabold text-black leading-tight">
               {title}
             </h3>
-
             {subtitle ? (
               <p className="mt-2 text-sm text-black/70 leading-relaxed">
                 {subtitle}
@@ -144,16 +135,16 @@ function ModalShell({
           </div>
         </div>
 
-        {/* divider suave */}
+        {/* Divider */}
         <div className="h-px w-full bg-black/10" />
 
-        {/* content */}
+        {/* Body */}
         <div className="px-6 py-5">{children}</div>
 
-        {/* divider suave */}
+        {/* Divider */}
         <div className="h-px w-full bg-black/10" />
 
-        {/* footer */}
+        {/* Footer */}
         <div className="px-6 py-4 flex items-center justify-center text-xs text-black/60">
           <span>Atendimento rapido • orcamento sem compromisso</span>
         </div>
@@ -200,7 +191,7 @@ function writeStored(state: StoredState) {
   }
 }
 
-/** ===== CARD INTERNO (APENAS LAYOUT) ===== */
+/** ===== Info Card (layout only) ===== */
 function InfoCard({
   title,
   description,
@@ -210,13 +201,11 @@ function InfoCard({
 }) {
   return (
     <div
-      className="
-        rounded-2xl
-        p-5
-        text-white
-        shadow-sm
-        ring-1 ring-black/10
-      "
+      className={cn(
+        "rounded-2xl p-5",
+        "text-white shadow-sm",
+        "ring-1 ring-black/10"
+      )}
       style={{ backgroundColor: CARD_BLUE }}
     >
       <p className="font-extrabold text-white text-base">{title}</p>
@@ -243,10 +232,7 @@ function CTACapturarLead({ onClose }: CTAProps) {
           title="Atendimento rapido no WhatsApp"
           description="Envie tipo de servico, medidas e bairro para agilizar o orcamento."
         />
-
-        <PrimaryLink href={buildWhatsAppLink(message)}>
-          Quero meu orcamento
-        </PrimaryLink>
+        <PrimaryLink href={buildWhatsAppLink(message)}>Quero meu orcamento</PrimaryLink>
       </div>
     </ModalShell>
   );
@@ -266,7 +252,6 @@ function CTAInstagram({ onClose }: CTAProps) {
           title="Conteudo e referencias"
           description="Veja modelos, acabamentos e ideias para o seu ambiente."
         />
-
         <PrimaryLink href={BRAND.instagramUrl}>Seguir no Instagram</PrimaryLink>
       </div>
     </ModalShell>
@@ -289,7 +274,6 @@ function CTAAnaliseGratuita({ onClose }: CTAProps) {
           title="Analise gratuita"
           description="A gente avalia seu caso e indica a melhor solucao."
         />
-
         <PrimaryLink href={buildWhatsAppLink(message)}>
           Quero analise gratuita
         </PrimaryLink>
@@ -313,7 +297,7 @@ export default function CTASequence() {
   const [index, setIndex] = useState(0);
 
   const timerRef = useRef<number | null>(null);
-  const initRef = useRef(false); // trava StrictMode duplicando
+  const initRef = useRef(false);
 
   function clearTimer() {
     if (timerRef.current !== null) {
