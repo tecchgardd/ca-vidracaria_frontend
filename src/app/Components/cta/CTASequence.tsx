@@ -50,7 +50,7 @@ function PrimaryLink({
   );
 }
 
-/** ===== MODAL SHELL (LAYOUT AJUSTADO) ===== */
+/** ===== MODAL SHELL (APENAS LAYOUT) ===== */
 function ModalShell({
   stepLabel,
   title,
@@ -58,7 +58,7 @@ function ModalShell({
   children,
   onClose,
 }: {
-  stepLabel?: string;
+  stepLabel: string;
   title: string;
   subtitle?: string;
   children: React.ReactNode;
@@ -70,7 +70,7 @@ function ModalShell({
     <div className="fixed inset-0 z-[9999] flex items-center justify-center p-4">
       {/* backdrop */}
       <div
-        className="absolute inset-0 bg-black/70 backdrop-blur-md"
+        className="absolute inset-0 bg-black/75 backdrop-blur-sm"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -81,8 +81,8 @@ function ModalShell({
           relative w-full max-w-[420px]
           bg-white
           rounded-[28px]
-          border border-black/10
-          shadow-2xl
+          shadow-[0_30px_80px_rgba(0,0,0,0.45)]
+          ring-1 ring-black/10
           overflow-hidden
         "
         role="dialog"
@@ -91,8 +91,8 @@ function ModalShell({
         {/* header */}
         <div className="px-6 pt-5 pb-4">
           <div className="flex items-start justify-between gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-2xl bg-white border border-black/10 flex items-center justify-center overflow-hidden shadow-sm">
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-11 h-11 rounded-2xl bg-white ring-1 ring-black/10 shadow-sm flex items-center justify-center overflow-hidden">
                 <img
                   src={BRAND.logoSrc}
                   alt={BRAND.name}
@@ -105,8 +105,9 @@ function ModalShell({
                   {BRAND.name}
                 </div>
 
+                {/* só aparece se tiver stepLabel (mas não mudamos info; só não renderiza vazio) */}
                 {showStep ? (
-                  <div className="mt-1 inline-flex items-center rounded-full border border-black/10 bg-black/5 px-2.5 py-1 text-[11px] font-semibold text-black">
+                  <div className="mt-1 inline-flex items-center rounded-full bg-black/5 px-2.5 py-1 text-[11px] font-semibold text-black ring-1 ring-black/10">
                     {stepLabel}
                   </div>
                 ) : null}
@@ -117,9 +118,9 @@ function ModalShell({
               onClick={onClose}
               className="
                 w-9 h-9 rounded-full
-                border border-black/10
-                text-black
                 grid place-items-center
+                text-black
+                ring-1 ring-black/10
                 hover:bg-black/5
                 transition
               "
@@ -143,18 +144,18 @@ function ModalShell({
           </div>
         </div>
 
-        {/* divider */}
+        {/* divider suave */}
         <div className="h-px w-full bg-black/10" />
 
         {/* content */}
         <div className="px-6 py-5">{children}</div>
 
-        {/* divider */}
+        {/* divider suave */}
         <div className="h-px w-full bg-black/10" />
 
         {/* footer */}
         <div className="px-6 py-4 flex items-center justify-center text-xs text-black/60">
-          <span>Atendimento rápido • orçamento sem compromisso</span>
+          <span>Atendimento rapido • orcamento sem compromisso</span>
         </div>
       </div>
     </div>
@@ -199,7 +200,7 @@ function writeStored(state: StoredState) {
   }
 }
 
-/** ===== CTA CARD (padronizado) ===== */
+/** ===== CARD INTERNO (APENAS LAYOUT) ===== */
 function InfoCard({
   title,
   description,
@@ -211,10 +212,10 @@ function InfoCard({
     <div
       className="
         rounded-2xl
-        border border-black/10
         p-5
         text-white
         shadow-sm
+        ring-1 ring-black/10
       "
       style={{ backgroundColor: CARD_BLUE }}
     >
@@ -228,24 +229,23 @@ function InfoCard({
 
 /** ================= CTA 1 ================= */
 function CTACapturarLead({ onClose }: CTAProps) {
-  const message =
-    "Olá, vim pelo site e quero um orçamento.\n\n" + "Pode me ajudar?";
+  const message = "Ola, vim pelo site e quero um orcamento.\n\n" + "Pode me ajudar?";
 
   return (
     <ModalShell
       stepLabel=""
-      title="Solicite seu orçamento agora"
-      subtitle="Fale com a gente e receba orientação rápida para o seu projeto."
+      title="Solicite seu orcamento agora"
+      subtitle="Fale com a gente e receba orientacao rapida para o seu projeto."
       onClose={onClose}
     >
       <div className="space-y-4">
         <InfoCard
-          title="Atendimento rápido no WhatsApp"
-          description="Envie tipo de serviço, medidas e bairro para agilizar o orçamento."
+          title="Atendimento rapido no WhatsApp"
+          description="Envie tipo de servico, medidas e bairro para agilizar o orcamento."
         />
 
         <PrimaryLink href={buildWhatsAppLink(message)}>
-          Quero meu orçamento
+          Quero meu orcamento
         </PrimaryLink>
       </div>
     </ModalShell>
@@ -263,7 +263,7 @@ function CTAInstagram({ onClose }: CTAProps) {
     >
       <div className="space-y-4">
         <InfoCard
-          title="Conteúdo e referências"
+          title="Conteudo e referencias"
           description="Veja modelos, acabamentos e ideias para o seu ambiente."
         />
 
@@ -275,24 +275,23 @@ function CTAInstagram({ onClose }: CTAProps) {
 
 /** ================= CTA 3 ================= */
 function CTAAnaliseGratuita({ onClose }: CTAProps) {
-  const message =
-    "Olá, vim pelo site e quero uma análise gratuita.\n\n" + "Pode me ajudar?";
+  const message = "Ola, vim pelo site e quero um orcamento.\n\n" + "Pode me ajudar?";
 
   return (
     <ModalShell
       stepLabel=""
-      title="Ainda está com dúvida?"
-      subtitle="Peça uma análise gratuita e a gente te orienta no melhor caminho."
+      title="Ainda esta com duvida?"
+      subtitle="Peca uma analise gratuita e a gente te orienta no melhor caminho."
       onClose={onClose}
     >
       <div className="space-y-4">
         <InfoCard
-          title="Análise gratuita"
-          description="A gente avalia seu caso e indica a melhor solução."
+          title="Analise gratuita"
+          description="A gente avalia seu caso e indica a melhor solucao."
         />
 
         <PrimaryLink href={buildWhatsAppLink(message)}>
-          Quero análise gratuita
+          Quero analise gratuita
         </PrimaryLink>
       </div>
     </ModalShell>
@@ -314,7 +313,7 @@ export default function CTASequence() {
   const [index, setIndex] = useState(0);
 
   const timerRef = useRef<number | null>(null);
-  const initRef = useRef(false);
+  const initRef = useRef(false); // trava StrictMode duplicando
 
   function clearTimer() {
     if (timerRef.current !== null) {
@@ -374,10 +373,6 @@ export default function CTASequence() {
   if (!open) return null;
 
   const current = ctas[index];
-  if (!current) return null;
-
-  return <>{current.render({ onClose: closeCurrent })}</>;
-}
   if (!current) return null;
 
   return <>{current.render({ onClose: closeCurrent })}</>;
