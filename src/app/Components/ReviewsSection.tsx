@@ -166,14 +166,14 @@ export default function ReviewsSection() {
             {!loading && !error && reviews.length > 0 && (
               <>
                 {/* Linha centralizada */}
-                <div className="w-full flex justify-center lg:justify-start gap-4">
+                <div className="w-full flex justify-center lg:justify-start ">
                   <div
                     className="
                       grid
                       grid-cols-1
                       sm:grid-cols-2
                       lg:grid-cols-3
-                      gap-8
+                      gap-4
                       justify-items-center
                     "
                   >
