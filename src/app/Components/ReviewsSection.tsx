@@ -50,9 +50,7 @@ function GoogleReviewsBadge() {
       </div>
 
       <div className="leading-tight">
-        <div className="text-white font-semibold">
-          Avaliações do Google
-        </div>
+        <div className="text-white font-semibold">Avaliações do Google</div>
         <div className="text-white/80 text-xs">
           Fonte: Google Reviews • avaliações verificadas
         </div>
@@ -100,6 +98,7 @@ export default function ReviewsSection() {
     }
 
     run();
+
     return () => {
       alive = false;
     };
@@ -122,9 +121,8 @@ export default function ReviewsSection() {
 
   return (
     <section id="avaliacoes" className="bg-[#1677B3] text-white">
-      <div className="max-w-6xl mx-auto px-4 py-14 md:py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 items-center">
-          
+      <div className="max-w-6xl mx-auto px-4 py-16 md:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 md:gap-16 items-center">
           {/* TEXTO */}
           <div className="text-center lg:text-left">
             <h2 className="text-2xl md:text-3xl font-extrabold leading-tight">
@@ -134,15 +132,14 @@ export default function ReviewsSection() {
             </h2>
 
             <p className="mt-4 text-white/80 text-sm leading-relaxed max-w-sm mx-auto lg:mx-0">
-              Avaliações reais de clientes. Transparência total e compromisso com qualidade.
+              Avaliações reais de clientes. Transparência total e compromisso
+              com qualidade.
             </p>
           </div>
 
           {/* LISTA */}
           <div className="lg:col-span-2">
-            {!loading && !error && reviews.length > 0 && (
-              <GoogleReviewsBadge />
-            )}
+            {!loading && !error && reviews.length > 0 && <GoogleReviewsBadge />}
 
             {loading && (
               <p className="text-white/90 text-center lg:text-left">
@@ -151,9 +148,7 @@ export default function ReviewsSection() {
             )}
 
             {!loading && error && (
-              <p className="text-white/90 text-center lg:text-left">
-                {error}
-              </p>
+              <p className="text-white/90 text-center lg:text-left">{error}</p>
             )}
 
             {!loading && !error && reviews.length === 0 && (
@@ -164,8 +159,57 @@ export default function ReviewsSection() {
 
             {!loading && !error && reviews.length > 0 && (
               <>
-                {/* GRID AJUSTADO */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
+                {/* MOBILE < 720px: scroll lateral */}
+                <div className="min-[720px]:hidden -mx-4 px-4 overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                  <div className="flex gap-4 w-max">
+                    {currentPageItems.map((r) => (
+                      <article
+                        key={r.id}
+                        className="
+                          w-[270px]
+                          min-[420px]:w-[300px]
+                          h-[190px]
+                          shrink-0
+                          bg-white
+                          text-black
+                          rounded-2xl
+                          border border-black/10
+                          shadow-md
+                          px-5
+                          py-4
+                          flex flex-col
+                          items-center
+                          justify-center
+                          text-center
+                          overflow-hidden
+                        "
+                      >
+                        <div className="text-sm font-semibold leading-tight w-full truncate">
+                          {r.reviewerName}
+                        </div>
+
+                        <div className="mt-2">
+                          <Stars rating={r.rating} />
+                        </div>
+
+                        <p
+                          className="
+                            mt-3 text-sm text-black/60
+                            overflow-hidden
+                            [display:-webkit-box]
+                            [-webkit-line-clamp:4]
+                            [-webkit-box-orient:vertical]
+                          "
+                        >
+                          {r.comment?.trim() ? r.comment : "Sem comentário"}
+                        </p>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+
+                {/* >= 720px: grid normal */}
+                <div className="hidden min-[720px]:grid grid-cols-2 lg:grid-cols-3 gap-4 w-full">
                   {currentPageItems.map((r) => (
                     <article
                       key={r.id}
@@ -205,9 +249,7 @@ export default function ReviewsSection() {
                           [-webkit-box-orient:vertical]
                         "
                       >
-                        {r.comment?.trim()
-                          ? r.comment
-                          : "Sem comentário"}
+                        {r.comment?.trim() ? r.comment : "Sem comentário"}
                       </p>
                     </article>
                   ))}
@@ -236,9 +278,7 @@ export default function ReviewsSection() {
                   <button
                     type="button"
                     onClick={() =>
-                      setPage((p) =>
-                        Math.min(totalPages - 1, p + 1)
-                      )
+                      setPage((p) => Math.min(totalPages - 1, p + 1))
                     }
                     disabled={!hasNext}
                     className="
