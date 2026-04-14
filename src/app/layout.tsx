@@ -47,9 +47,9 @@ export const metadata: Metadata = {
   },
 
   icons: {
-    icon: "/assets/logo.png",
-    shortcut: "/assets/logo.png",
-    apple: "/assets/logo.png",
+    icon: "/icon.png",
+    shortcut: "/icon.png",
+    apple: "/icon.png",
   },
 
   openGraph: {
@@ -63,9 +63,9 @@ export const metadata: Metadata = {
 
     images: [
       {
-        url: "/assets/logo.png",
-        width: 1200,
-        height: 630,
+        url: "/opengraph-image.png",
+        width: 800,
+        height: 600,
         alt: "CA Vidraçaria e Esquadrias de Alumínio",
       },
     ],
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
     title: "CA Vidraçaria e Esquadrias de Alumínio",
     description:
       "Soluções em vidro e esquadrias de alumínio com qualidade, segurança e sofisticação.",
-    images: ["/assets/logo.png"],
+    images: ["/opengraph-image.png"],
   },
 };
 
