@@ -61,14 +61,6 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     type: "website",
 
-    images: [
-      {
-        url: "/opengraph-image.png",
-        width: 800,
-        height: 600,
-        alt: "CA Vidraçaria e Esquadrias de Alumínio",
-      },
-    ],
   },
 
   twitter: {
@@ -76,7 +68,6 @@ export const metadata: Metadata = {
     title: "CA Vidraçaria e Esquadrias de Alumínio",
     description:
       "Soluções em vidro e esquadrias de alumínio com qualidade, segurança e sofisticação.",
-    images: ["/opengraph-image.png"],
   },
 };
 
