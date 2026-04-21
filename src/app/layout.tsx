@@ -46,12 +46,6 @@ export const metadata: Metadata = {
     canonical: "/",
   },
 
-  icons: {
-    icon: "/icon.png",
-    shortcut: "/icon.png",
-    apple: "/icon.png",
-  },
-
   openGraph: {
     title: "CA Vidraçaria e Esquadrias de Alumínio",
     description:
