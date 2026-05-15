@@ -42,6 +42,10 @@ export const metadata: Metadata = {
 
   metadataBase: new URL("https://www.cavidracaria.com.br"),
 
+  icons: {
+    icon: "/assets/logo.png",
+  },
+
   alternates: {
     canonical: "/",
   },
