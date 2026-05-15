@@ -40,7 +40,7 @@ export const metadata: Metadata = {
   creator: "CA Vidraçaria",
   publisher: "CA Vidraçaria",
 
-  metadataBase: new URL("https://cavidracaria.com.br"),
+  metadataBase: new URL("https://www.cavidracaria.com.br"),
 
   alternates: {
     canonical: "/",
